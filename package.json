@@ -1,0 +1,17 @@
+{
+  "name": "node_tse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tse.js",
+  "scripts": {
+    
+    "start": "node server/index.js"
+    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
