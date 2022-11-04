@@ -1,68 +1,48 @@
-import React from "react";
+import React, { Component } from "react";
 import "./App.css";
+import api from "./api";
 
-let url_presidente_segundo_turno =
-  "https://resultados.tse.jus.br/oficial/ele2022/545/dados-simplificados/br/br-c0001-e000545-r.json";
+class App extends Component {
 
-function acao_botao() {
-  console.log("Buscando");
-  fetch(url_presidente_segundo_turno)
-    .then(function (resposta) {
-      resposta.json()
-        .then(function (resultado_da_eleição) {
-         
-
-          
-    
-          let obj_candidatos_segundo_turno = resultado_da_eleição.cand;
-
-          let porcentagem_totalizada = resultado_da_eleição.pst;
-          console.log(
-            "Porcentagem de urnas apuradas:" + porcentagem_totalizada + "%"
-          );
-
-          for (var i = 0; i <= obj_candidatos_segundo_turno.length - 1; i++) {
-            let obj_candidato = obj_candidatos_segundo_turno[i];
-
-            let votos_validos = obj_candidato.pvap;
-            let vice_presidente = obj_candidato.nv;
-            let coligação = obj_candidato.cc;
-            let nome_candidato = obj_candidato.nm;
-            let quantidade_votos_totais = obj_candidato.vap;
-            let status_candidato = obj_candidato.st;
-
-            console.log("Votos Validos:" + votos_validos + "%");
-            console.log("Vice Presidente:" + vice_presidente);
-            console.log("Coligação:" + coligação);
-            console.log("Nome Canditado:" + nome_candidato);
-            console.log("Quantidade de Votos Validos:" + quantidade_votos_totais);
-            console.log("Candidato Eleito ou Não Eleito?:" + status_candidato);
-
-            console.log("------------------------------------------");
-        }
+    state ={
+     resultado_da_eleição:[],
+    } 
 
 
-        })
-        .catch(function (erro) {
-          console.log("Ocorreu um e rro durante o JSON: " + erro);
-        });
+async componentDidMount() {
+   const resposta = await api.get('');
+   this.setState({resultado_da_eleição: resposta.data});
 
-    })
-    .catch(function (erro) {
-      console.log("Ocorreu um erro durante o FECTH: " + erro);
-    });
 }
 
-function App() {
+
+
+render() {
+
+  const { resultado_da_eleição } = this.state;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <button name="Resultados" onClick={acao_botao}>
-          Resultado 2ª Turno
-        </button>
-      </header>
+    
+    <div>
+      <h1>Resultado Eleições 2022</h1>
+      {console.log(resultado_da_eleição)}
+      {resultado_da_eleição.map(resultado_da_eleição => (
+       <li key={resultado_da_eleição.cand}> 
+          <h2>
+           <strong> Teste </strong> 
+           {resultado_da_eleição}
+          </h2>
+       
+       </li>
+
+
+      ) )}
+
     </div>
   );
-}
+};
+};
+
+    
 
 export default App;
