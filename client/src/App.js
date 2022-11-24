@@ -1,48 +1,29 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import api from "./api";
 
-class App extends Component {
+export default function App() {
 
-    state ={
-     resultado_da_eleição:[],
-    } 
+  const [cand, setCand] = useState();
+  console.log(cand);
 
+useEffect(() => {
+  api
+  .get("")
+  .then((response) => setCand(response.data))
+  .catch((err) => {
+    console.error("ops! ocorreu um erro" + err);
+  });
+}, []);
 
-async componentDidMount() {
-   const resposta = await api.get('');
-   this.setState({resultado_da_eleição: resposta.data});
+return (
+  <div className="App" >
+    <p>Data da Eleição: {cand?.dg}</p>
+    <p>Votos Validos: {cand?.vv}</p>
+    <p>Porcentagem de urnas apuradas: {cand?.pst + "%"}</p>
+  </div>
+  
+);
 
 }
 
-
-
-render() {
-
-  const { resultado_da_eleição } = this.state;
-
-  return (
-    
-    <div>
-      <h1>Resultado Eleições 2022</h1>
-      {console.log(resultado_da_eleição)}
-      {resultado_da_eleição.map(resultado_da_eleição => (
-       <li key={resultado_da_eleição.cand}> 
-          <h2>
-           <strong> Teste </strong> 
-           {resultado_da_eleição}
-          </h2>
-       
-       </li>
-
-
-      ) )}
-
-    </div>
-  );
-};
-};
-
-    
-
-export default App;
